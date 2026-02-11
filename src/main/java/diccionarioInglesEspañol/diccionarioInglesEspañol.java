@@ -30,26 +30,29 @@ public class diccionarioInglesEspañol {
         diccionario.put("bienvenido", new Entrada("bienvenido", "welcome"));
         do {
             mostrarMenu();
-            opcionEscogida = sc.nextInt();
-            sc.nextLine();
-            switch (opcionEscogida) {
-                case 1 -> {
-                    insertarPalabra();
+
+            // Comprobamos si lo que viene por teclado es un número
+            if (sc.hasNextInt()) {
+                opcionEscogida = sc.nextInt();
+                sc.nextLine();
+
+                switch (opcionEscogida) {
+                    case 1 ->
+                        insertarPalabra();
+                    case 2 ->
+                        buscarPalabra();
+                    case 3 ->
+                        editarEntrada();
+                    case 4 ->
+                        traducirFrase();
+                    case 5 ->
+                        System.out.println("Salida completada vuelva pronto");
+                    default ->
+                        System.out.println("Opción no válida.");
                 }
-                case 2 -> {
-                    buscarPalabra();
-                }
-                case 3 -> {
-                    editarEntrada();
-                }
-                case 4 -> {
-                    traducirFrase();
-                }
-                case 5 -> {
-                    System.out.println("Salida completada, vuelva pronto");
-                }
-                default ->
-                    System.out.println("Introduzca una opción válida (1-5)");
+            } else {
+                System.out.println("¡Error! Debes introducir un NÚMERO del 1 al 5.");
+                sc.nextLine(); // <--- IMPORTANTE: Limpiamos la letra para que no se repita el bucle infinito
             }
         } while (opcionEscogida != 5);
 
@@ -161,20 +164,20 @@ public class diccionarioInglesEspañol {
     public static void traducirFrase() {
         System.out.println("Introduce la frase que quieres traducir");
         String fraseEscogida = sc.nextLine().toLowerCase(); // minuscula para evitar errores
-        
+
         // tenemos que dividir la frase con espacios para que no se vea todo junto 
         String[] palabra = fraseEscogida.split(" ");
-        
+
         // aqi ponemos la frase final ya con su traduccion y todo eso
         String fraseTraducida = "";
         // esto ya es mas facil porque recorremos el array
         for (String p : palabra) {
             // comprobamos que esta en el diccionario en español (clave)
-            if(diccionario.containsKey(p)){
+            if (diccionario.containsKey(p)) {
                 // llamamos al Entrada para conseguir la palabra en ingles (valor)
                 Entrada aux = diccionario.get(p);
                 fraseTraducida += aux.getValor() + " "; // para que se vea bonita
-            }else{
+            } else {
                 fraseTraducida += "Palabra desconocida ";
             }
         }
